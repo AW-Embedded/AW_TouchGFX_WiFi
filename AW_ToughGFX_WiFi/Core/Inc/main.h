@@ -58,19 +58,32 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define WIFI_GPIO_Pin GPIO_PIN_4
+#define WIFI_GPIO_GPIO_Port GPIOI
+#define WIFI_BOOT_Pin GPIO_PIN_3
+#define WIFI_BOOT_GPIO_Port GPIOI
+#define WIFI_DATRDY_Pin GPIO_PIN_5
+#define WIFI_DATRDY_GPIO_Port GPIOI
+#define WIFI_DATRDY_EXTI_IRQn EXTI9_5_IRQn
 #define LED3_Pin GPIO_PIN_11
 #define LED3_GPIO_Port GPIOG
 #define VSYNC_FREQ_Pin GPIO_PIN_14
 #define VSYNC_FREQ_GPIO_Port GPIOH
+#define WIFI_WKUP_Pin GPIO_PIN_2
+#define WIFI_WKUP_GPIO_Port GPIOI
 #define RENDER_TIME_Pin GPIO_PIN_13
 #define RENDER_TIME_GPIO_Port GPIOH
 #define FRAME_RATE_Pin GPIO_PIN_9
 #define FRAME_RATE_GPIO_Port GPIOI
+#define WIFI_RST_Pin GPIO_PIN_1
+#define WIFI_RST_GPIO_Port GPIOI
+#define WAKEUP_Pin GPIO_PIN_13
+#define WAKEUP_GPIO_Port GPIOC
+#define WAKEUP_EXTI_IRQn EXTI15_10_IRQn
 #define LED2_Pin GPIO_PIN_2
 #define LED2_GPIO_Port GPIOG
 #define LCD_INT_Pin GPIO_PIN_2
 #define LCD_INT_GPIO_Port GPIOH
-#define LCD_INT_EXTI_IRQn EXTI2_IRQn
 #define MCU_ACTIVE_Pin GPIO_PIN_9
 #define MCU_ACTIVE_GPIO_Port GPIOH
 #define LCD_BL_CTRL_Pin GPIO_PIN_1
