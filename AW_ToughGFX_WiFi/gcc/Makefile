@@ -222,7 +222,15 @@ board_c_files += \
     $(Drivers_path)/BSP/Components/stmpe811/stmpe811_reg.c \
     $(Drivers_path)/BSP/Components/ft5336/ft5336.c \
     $(Drivers_path)/BSP/Components/ft5336/ft5336_reg.c \
-    $(Drivers_path)/BSP/Components/mx25lm51245g/mx25lm51245g.c
+    $(Drivers_path)/BSP/Components/mx25lm51245g/mx25lm51245g.c \
+	$(Drivers_path)/BSP/Components/es_wifi/es_wifi.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_address.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_class_extension.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_core.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_os.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_socket.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/core/net_state.c \
+	$(cubemx_middlewares_path)/ST/STM32_Network_Library/netif/wifi_if/es_wifi/net_es_wifi.c
 
 board_cpp_files :=
 
@@ -230,7 +238,10 @@ board_include_paths := \
     Drivers/CMSIS/Device/ST/STM32H7xx/Include \
     Drivers/CMSIS/Include \
     Drivers/BSP/STM32H7B3I-DK \
+	Core/Inc \
     Drivers/BSP/Components \
+	Drivers/BSP/Components/es_wifi \
+	Middlewares/ST/STM32_Network_Library/Includes \
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
 
 asm_source_files := gcc/startup_stm32h7b3lihxq.s

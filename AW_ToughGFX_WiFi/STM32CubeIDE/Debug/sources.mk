@@ -44,4 +44,6 @@ Drivers/BSP/STM32H7B3I-DK \
 Drivers/CMSIS \
 Drivers/STM32H7xx_HAL_Driver \
 Middlewares/FreeRTOS \
+Middlewares/STM32_Network_Library/core \
+Middlewares/STM32_Network_Library/netif \
 

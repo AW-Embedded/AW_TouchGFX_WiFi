@@ -2409,6 +2409,67 @@ ES_WIFI_Status_t  ES_WIFI_ReceiveDataFrom(ES_WIFIObject_t *Obj, uint8_t Socket, 
   return ret;
 }
 
+
+ES_WIFI_Status_t  ES_WIFI_SockInfo(ES_WIFIObject_t *Obj, uint8_t Socket, uint8_t *IPaddr, uint16_t *pPort)
+{
+
+  ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
+
+  LOCK_WIFI();
+
+  sprintf((char*)Obj->CmdData, "P0=%d\r", Socket);
+  ret = AT_ExecuteCommand(Obj, Obj->CmdData, Obj->CmdData);
+
+  if (ret == ES_WIFI_STATUS_OK)
+  {
+
+    sprintf((char*)Obj->CmdData,"P?\r");
+    ret = AT_ExecuteCommand(Obj, Obj->CmdData, Obj->CmdData);
+
+    if (ret == ES_WIFI_STATUS_OK)
+    {
+      ES_WIFI_Transport_t TransportSettings;
+      memset(&TransportSettings, 0, sizeof(TransportSettings));
+      AT_ParseTransportSettings((char *) Obj->CmdData, &TransportSettings);
+      memcpy(IPaddr, TransportSettings.Local_IP_Addr, 4);
+      *pPort = TransportSettings.Local_Port;
+    }
+  }
+
+  UNLOCK_WIFI();
+  return ret;
+}
+
+ES_WIFI_Status_t  ES_WIFI_PeerInfo(ES_WIFIObject_t *Obj, uint8_t Socket, uint8_t *IPaddr, uint16_t *pPort)
+{
+
+  ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
+
+  LOCK_WIFI();
+
+  sprintf((char*)Obj->CmdData, "P0=%d\r", Socket);
+  ret = AT_ExecuteCommand(Obj, Obj->CmdData, Obj->CmdData);
+
+  if (ret == ES_WIFI_STATUS_OK)
+  {
+
+    sprintf((char*)Obj->CmdData,"P?\r");
+    ret = AT_ExecuteCommand(Obj, Obj->CmdData, Obj->CmdData);
+
+    if (ret == ES_WIFI_STATUS_OK)
+    {
+      ES_WIFI_Transport_t TransportSettings;
+      memset(&TransportSettings, 0, sizeof(TransportSettings));
+      AT_ParseTransportSettings((char *) Obj->CmdData, &TransportSettings);
+      memcpy(IPaddr, TransportSettings.Remote_IP_Addr, 4);
+      *pPort = TransportSettings.Remote_Port;
+    }
+  }
+
+  UNLOCK_WIFI();
+  return ret;
+}
+
 ES_WIFI_Status_t  ES_WIFI_StoreCreds( ES_WIFIObject_t *Obj,
                                       ES_WIFI_CredsFunction_t credsFunction, uint8_t credSet,
                                       uint8_t* ca, uint16_t caLength,
