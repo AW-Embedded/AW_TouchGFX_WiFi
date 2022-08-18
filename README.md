@@ -16,8 +16,8 @@ The ST provided ClockAndWether project was used as a code / designer reference, 
 
 Built using:
 
--TouchGFX Designer v4.20.0
--STM32CubeFW_H7 v1.10.0
--STM32CubeMX v6.6.1
--STM32CubeIDE v1.10.0
--STM32 Network Library v2.1.0
+- TouchGFX Designer v4.20.0
+- STM32CubeFW_H7 v1.10.0
+- STM32CubeMX v6.6.1
+- STM32CubeIDE v1.10.0
+- STM32 Network Library v2.1.0
