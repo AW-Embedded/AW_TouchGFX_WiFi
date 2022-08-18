@@ -211,9 +211,10 @@ static ES_WIFI_SecurityType_t ParseSecurity(char* ptr)
 static void AT_ParseInfo(ES_WIFIObject_t *Obj,uint8_t *pdata)
 {
   char *ptr;
+  char *saveptr;
   uint8_t num = 0;
 
-  ptr = strtok((char *)pdata + 2, ",");
+  ptr = strtok_r((char *)pdata + 2, ",", &saveptr);
 
   while (ptr != NULL){
     switch (num++) {
@@ -242,13 +243,13 @@ static void AT_ParseInfo(ES_WIFIObject_t *Obj,uint8_t *pdata)
       break;
 
     case 6:
-      ptr = strtok(ptr, "\r");
+      ptr = strtok_r(ptr, "\r", &saveptr);
       strncpy((char *)Obj->Product_Name,  ptr, ES_WIFI_PRODUCT_NAME_SIZE);
       break;
 
     default: break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",", &saveptr);
   }
 }
 
@@ -262,9 +263,10 @@ static void AT_ParseAP(char *pdata, ES_WIFI_APs_t *APs)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
   APs->nbr = 0;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, "," ,&saveptr);
 
   while ((ptr != NULL) && (APs->nbr < ES_WIFI_MAX_DETECTED_AP)) {
     switch (num++) {
@@ -300,7 +302,7 @@ static void AT_ParseAP(char *pdata, ES_WIFI_APs_t *APs)
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
   }
 }
 
@@ -319,8 +321,9 @@ static void AT_ParseFWRev(char *pdata, uint8_t *ver)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 1, ".");
+  ptr = strtok_r(pdata + 1, ".",&saveptr);
 
   while ((ptr != NULL) && (num < 4)) {
     switch (num) {
@@ -338,7 +341,7 @@ static void AT_ParseFWRev(char *pdata, uint8_t *ver)
       break;
     }
     num++;
-    ptr = strtok(NULL, ".");
+    ptr = strtok_r(NULL, ".",&saveptr);
   }
 }
 
@@ -352,8 +355,9 @@ static void AT_ParseSingleAP(char *pdata, ES_WIFI_AP_t *AP)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, ",",&saveptr);
 
   while (ptr != NULL) {
     switch (num++) {
@@ -388,7 +392,7 @@ static void AT_ParseSingleAP(char *pdata, ES_WIFI_AP_t *AP)
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
   }
 }
 
@@ -403,8 +407,9 @@ static void AT_ParseUARTConfig(char *pdata, ES_WIFI_UARTConfig_t *pConfig)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, ",",&saveptr);
 
   while (ptr != NULL) {
     switch (num++) {
@@ -435,7 +440,7 @@ static void AT_ParseUARTConfig(char *pdata, ES_WIFI_UARTConfig_t *pConfig)
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
   }
 }
 #endif
@@ -450,8 +455,9 @@ static void AT_ParseSystemConfig(char *pdata, ES_WIFI_SystemConfig_t *pConfig)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, ",",&saveptr);
 
   while (ptr != NULL) {
     switch (num++) {
@@ -502,7 +508,7 @@ static void AT_ParseSystemConfig(char *pdata, ES_WIFI_SystemConfig_t *pConfig)
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
   }
 }
 
@@ -517,8 +523,9 @@ static void AT_ParseConnSettings(char *pdata, ES_WIFI_Network_t *NetSettings)
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, ",",&saveptr);
 
   while (ptr != NULL) {
     switch (num++) {
@@ -573,7 +580,7 @@ static void AT_ParseConnSettings(char *pdata, ES_WIFI_Network_t *NetSettings)
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
     if ((ptr != NULL) && (ptr[-1] == ','))
     { /* Ignore empty fields */
       num++;
@@ -592,8 +599,9 @@ static void AT_ParseTransportSettings(char *pdata, ES_WIFI_Transport_t *Transpor
 {
   uint8_t num = 0;
   char *ptr;
+  char *saveptr;
 
-  ptr = strtok(pdata + 2, ",");
+  ptr = strtok_r(pdata + 2, ",",&saveptr);
 
   while (ptr != NULL) {
     switch (num++) {
@@ -640,7 +648,7 @@ static void AT_ParseTransportSettings(char *pdata, ES_WIFI_Transport_t *Transpor
     default:
       break;
     }
-    ptr = strtok(NULL, ",");
+    ptr = strtok_r(NULL, ",",&saveptr);
     if ((ptr != NULL) && (ptr[-1] == ','))
     { /* Ignore empty fields */
       num++;
@@ -669,17 +677,18 @@ static void AT_ParseIsConnected(char *pdata, uint8_t *isConnected)
 static void AT_ParsePing(int32_t res[], uint32_t count,char* pdata)
 {
   char *ptr;
+  char *saveptr;
   int i=0;
 
-  ptr= strtok(pdata,",\n\r");
+  ptr= strtok_r(pdata,",\n\r",&saveptr);
   while(ptr)
   {
-    ptr = strtok(0,"\n\r");
+    ptr = strtok_r(0,"\n\r",&saveptr);
     if (ptr)
     {
       res[i++]=ParseNumber(ptr,0);
       if (i==count) return;
-      ptr = strtok(0,",\n\r");
+      ptr = strtok_r(0,",\n\r",&saveptr);
     }
   }
 }
@@ -1253,6 +1262,7 @@ ES_WIFI_APState_t ES_WIFI_WaitAPStateChange(ES_WIFIObject_t *Obj)
 {
   ES_WIFI_APState_t ret = ES_WIFI_AP_NONE;
   char *ptr;
+  char *saveptr;
   LOCK_WIFI();
 
  #if (ES_WIFI_USE_UART == 1)
@@ -1275,13 +1285,13 @@ ES_WIFI_APState_t ES_WIFI_WaitAPStateChange(ES_WIFIObject_t *Obj)
 #endif
     else  if(strstr((char *)Obj->CmdData, "[AP DHCP]"))
     {
-      ptr = strtok((char *)Obj->CmdData + 2, " ");
-      ptr = strtok(NULL, " ");
-      ptr = strtok(NULL, " ");
-      ptr = strtok(NULL, " ");
+      ptr = strtok_r((char *)Obj->CmdData + 2, " ",&saveptr);
+      ptr = strtok_r(NULL, " ",&saveptr);
+      ptr = strtok_r(NULL, " ",&saveptr);
+      ptr = strtok_r(NULL, " ",&saveptr);
       ParseMAC((char *)ptr, Obj->APSettings.MAC_Addr);
-      ptr = strtok(NULL, " ");
-      ptr = strtok(NULL, "\r");
+      ptr = strtok_r(NULL, " ",&saveptr);
+      ptr = strtok_r(NULL, "\r",&saveptr);
       ParseIP((char *)ptr, Obj->APSettings.IP_Addr);
       ret = ES_WIFI_AP_ASSIGNED;
 #if (ES_WIFI_USE_SPI == 1)
@@ -1290,9 +1300,9 @@ ES_WIFI_APState_t ES_WIFI_WaitAPStateChange(ES_WIFIObject_t *Obj)
     }
     else  if(strstr((char *)Obj->CmdData, "[JOIN   ]"))
     {
-      ptr = strtok((char *)Obj->CmdData + 12, ",");
+      ptr = strtok_r((char *)Obj->CmdData + 12, ",",&saveptr);
       strncpy((char *)Obj->APSettings.SSID, ptr, ES_WIFI_MAX_SSID_NAME_SIZE  );
-      ptr = strtok(NULL, ",");
+      ptr = strtok_r(NULL, ",",&saveptr);
       ParseIP((char *)ptr, Obj->APSettings.IP_Addr);
       ret =  ES_WIFI_AP_JOINED;
 #if (ES_WIFI_USE_SPI == 1)
@@ -1321,13 +1331,14 @@ ES_WIFI_Status_t ES_WIFI_GetMACAddress(ES_WIFIObject_t *Obj, uint8_t *mac)
 {
   ES_WIFI_Status_t ret ;
   char *ptr;
+  char *saveptr;
   LOCK_WIFI();
 
   sprintf((char*)Obj->CmdData,"Z5\r");
   ret = AT_ExecuteCommand(Obj, Obj->CmdData, Obj->CmdData);
   if(ret == ES_WIFI_STATUS_OK)
   {
-    ptr = strtok((char *)(Obj->CmdData + 2), "\r\n");
+    ptr = strtok_r((char *)(Obj->CmdData + 2), "\r\n",&saveptr);
     ParseMAC(ptr, mac) ;
   }
   UNLOCK_WIFI();
@@ -1581,6 +1592,7 @@ ES_WIFI_Status_t ES_WIFI_DNS_LookUp(ES_WIFIObject_t *Obj, const char *url, uint8
 {
   ES_WIFI_Status_t ret;
   char *ptr;
+  char *saveptr;
   LOCK_WIFI();
 
   sprintf((char*)Obj->CmdData,"D0=%s\r", url);
@@ -1588,7 +1600,7 @@ ES_WIFI_Status_t ES_WIFI_DNS_LookUp(ES_WIFIObject_t *Obj, const char *url, uint8
 
   if(ret == ES_WIFI_STATUS_OK)
   {
-    ptr = strtok((char *)Obj->CmdData + 2, "\r");
+    ptr = strtok_r((char *)Obj->CmdData + 2, "\r",&saveptr);
     ParseIP(ptr, ipaddress);
   }
   UNLOCK_WIFI();
@@ -1759,6 +1771,7 @@ ES_WIFI_Status_t ES_WIFI_StartAWSClientConnection(ES_WIFIObject_t *Obj, ES_WIFI_
 ES_WIFI_Status_t ES_WIFI_StartServerSingleConn(ES_WIFIObject_t *Obj, ES_WIFI_Conn_t *conn)
 {
   ES_WIFI_Status_t ret = ES_WIFI_STATUS_OK;
+  char *saveptr;
   LOCK_WIFI();
 
   sprintf((char*)Obj->CmdData,"P0=%d\r", conn->Number);
@@ -1799,10 +1812,10 @@ ES_WIFI_Status_t ES_WIFI_StartServerSingleConn(ES_WIFIObject_t *Obj, ES_WIFI_Con
             {
               if(strstr((char *)Obj->CmdData, "Accepted"))
               {
-                ptr = strtok((char *)Obj->CmdData + 2, " ");
-                ptr = strtok(NULL, " ");
-                ptr = strtok(NULL, " ");
-                ptr = strtok(NULL, ":");
+                ptr = strtok_r((char *)Obj->CmdData + 2, " ",&saveptr);
+                ptr = strtok_r(NULL, " ",&saveptr);
+                ptr = strtok_r(NULL, " ",&saveptr);
+                ptr = strtok_r(NULL, ":",&saveptr);
                 ParseIP((char *)ptr, conn->RemoteIP);
                 ret = ES_WIFI_STATUS_OK;
               }
@@ -1830,6 +1843,7 @@ ES_WIFI_Status_t  ES_WIFI_WaitServerConnection(ES_WIFIObject_t *Obj,uint32_t tim
   uint32_t      tlast;
   uint32_t      tstart;
   char          *ptr;
+  char          *saveptr;
 
   tstart=HAL_GetTick();
   tlast=tstart+timeout;
@@ -1878,13 +1892,13 @@ ES_WIFI_Status_t  ES_WIFI_WaitServerConnection(ES_WIFIObject_t *Obj,uint32_t tim
     {
       if(accepted && (strncmp((char *)Obj->CmdData, "\r\n0,0.0.0.0,",12)!=0))
       {
-        ptr = strtok((char *)Obj->CmdData + 2, ",");
-        ptr = strtok(0, ","); //port
+        ptr = strtok_r((char *)Obj->CmdData + 2, ",",&saveptr);
+        ptr = strtok_r(0, ",",&saveptr); //port
         ParseIP((char *)ptr, conn->RemoteIP);
-        ptr = strtok(0, ","); //port
+        ptr = strtok_r(0, ",",&saveptr); //port
         conn->LocalPort=ParseNumber(ptr,0);
-        ptr = strtok(0, ","); //ip
-        ptr = strtok(0, ","); //remote port
+        ptr = strtok_r(0, ",",&saveptr); //ip
+        ptr = strtok_r(0, ",",&saveptr); //remote port
         conn->RemotePort=ParseNumber(ptr,0);
         UNLOCK_WIFI();
         return ES_WIFI_STATUS_OK;
@@ -2409,7 +2423,6 @@ ES_WIFI_Status_t  ES_WIFI_ReceiveDataFrom(ES_WIFIObject_t *Obj, uint8_t Socket, 
   return ret;
 }
 
-
 ES_WIFI_Status_t  ES_WIFI_SockInfo(ES_WIFIObject_t *Obj, uint8_t Socket, uint8_t *IPaddr, uint16_t *pPort)
 {
 
@@ -2439,6 +2452,7 @@ ES_WIFI_Status_t  ES_WIFI_SockInfo(ES_WIFIObject_t *Obj, uint8_t Socket, uint8_t
   UNLOCK_WIFI();
   return ret;
 }
+
 
 ES_WIFI_Status_t  ES_WIFI_PeerInfo(ES_WIFIObject_t *Obj, uint8_t Socket, uint8_t *IPaddr, uint16_t *pPort)
 {

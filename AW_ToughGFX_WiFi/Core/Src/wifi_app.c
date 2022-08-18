@@ -117,6 +117,8 @@ void esWiFi_Task(void *argument)
     uint8_t msg;
     uint8_t retvalue;
 
+    wifi_scan(&APs[0]);
+
     for (;;)
     {
         osMessageQueueGet(WiFi_QueueHandle, &msg, 0, osWaitForever);
