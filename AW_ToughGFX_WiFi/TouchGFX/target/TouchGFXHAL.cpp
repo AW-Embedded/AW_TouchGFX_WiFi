@@ -50,6 +50,9 @@ void TouchGFXHAL::taskEntry()
     HAL_GPIO_WritePin(GPIOK, GPIO_PIN_7, GPIO_PIN_RESET);
     /* Assert display enable LCD_DISP_CTRL pin */
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+
+    /* Wait to avoid seeing garbage on start up */
+    HAL_Delay(200);
     /* Assert back light LCD_BL_CTRL pin */
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 

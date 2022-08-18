@@ -12,7 +12,7 @@ mainScreenViewBase::mainScreenViewBase()
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
 
     bg1.setXY(0, 0);
-    bg1.setBitmap(touchgfx::Bitmap(BITMAP_BLUE_BACKGROUNDS_MAIN_BG_TEXTURE_480X272PX_ID));
+    bg1.setBitmap(touchgfx::Bitmap(BITMAP_DARK_BACKGROUNDS_MAIN_BG_TEXTURE_480X272PX_ID));
 
     add(__background);
     add(bg1);

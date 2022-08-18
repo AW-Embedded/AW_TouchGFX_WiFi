@@ -6,7 +6,7 @@
 #include <touchgfx/hal/Types.hpp>
 #include <touchgfx/Bitmap.hpp>
 
-const uint16_t BITMAP_BLUE_BACKGROUNDS_MAIN_BG_TEXTURE_480X272PX_ID = 0;
+const uint16_t BITMAP_DARK_BACKGROUNDS_MAIN_BG_TEXTURE_480X272PX_ID = 0;
 
 namespace BitmapDatabase
 {

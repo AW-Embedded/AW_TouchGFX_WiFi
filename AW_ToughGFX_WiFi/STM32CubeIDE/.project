@@ -410,9 +410,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/BitmapDatabase.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_Blue_Backgrounds_Main_bg_texture_480x272px.cpp</name>
+			<name>Application/User/generated/image_Dark_Backgrounds_Main_bg_texture_480x272px.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__designer/image_Blue_Backgrounds_Main_bg_texture_480x272px.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__designer/image_Dark_Backgrounds_Main_bg_texture_480x272px.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/LanguageGb.cpp</name>

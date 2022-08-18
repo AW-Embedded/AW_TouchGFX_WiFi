@@ -33,7 +33,7 @@
 "./Application/User/generated/Texts.o"
 "./Application/User/generated/TypedTextDatabase.o"
 "./Application/User/generated/UnmappedDataFont.o"
-"./Application/User/generated/image_Blue_Backgrounds_Main_bg_texture_480x272px.o"
+"./Application/User/generated/image_Dark_Backgrounds_Main_bg_texture_480x272px.o"
 "./Application/User/generated/mainScreenViewBase.o"
 "./Application/User/gui/FrontendApplication.o"
 "./Application/User/gui/Model.o"
