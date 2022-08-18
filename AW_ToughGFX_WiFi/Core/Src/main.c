@@ -53,11 +53,11 @@ LTDC_HandleTypeDef hltdc;
 
 OSPI_HandleTypeDef hospi1;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
+/* Definitions for WiFi_Task */
+osThreadId_t WiFi_TaskHandle;
+const osThreadAttr_t WiFi_Task_attributes = {
+  .name = "WiFi_Task",
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for GUI_Task */
@@ -66,6 +66,16 @@ const osThreadAttr_t GUI_Task_attributes = {
   .name = "GUI_Task",
   .stack_size = 4096 * 4,
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for GUI_Queue */
+osMessageQueueId_t GUI_QueueHandle;
+const osMessageQueueAttr_t GUI_Queue_attributes = {
+  .name = "GUI_Queue"
+};
+/* Definitions for WiFi_Queue */
+osMessageQueueId_t WiFi_QueueHandle;
+const osMessageQueueAttr_t WiFi_Queue_attributes = {
+  .name = "WiFi_Queue"
 };
 /* USER CODE BEGIN PV */
 
@@ -80,7 +90,7 @@ static void MX_DMA2D_Init(void);
 static void MX_LTDC_Init(void);
 static void MX_I2C4_Init(void);
 static void MX_OCTOSPI1_Init(void);
-void StartDefaultTask(void *argument);
+void esWiFi_Task(void *argument);
 extern void TouchGFX_Task(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -156,13 +166,20 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of GUI_Queue */
+  GUI_QueueHandle = osMessageQueueNew (10, sizeof(uint8_t), &GUI_Queue_attributes);
+
+  /* creation of WiFi_Queue */
+  WiFi_QueueHandle = osMessageQueueNew (10, sizeof(uint8_t), &WiFi_Queue_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of WiFi_Task */
+  WiFi_TaskHandle = osThreadNew(esWiFi_Task, NULL, &WiFi_Task_attributes);
 
   /* creation of GUI_Task */
   GUI_TaskHandle = osThreadNew(TouchGFX_Task, NULL, &GUI_Task_attributes);
@@ -572,14 +589,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_esWiFi_Task */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the WiFi_Task thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_esWiFi_Task */
+__weak void esWiFi_Task(void *argument)
 {
   /* USER CODE BEGIN 5 */
 
