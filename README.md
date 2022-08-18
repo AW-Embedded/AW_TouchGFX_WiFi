@@ -1,6 +1,8 @@
 # AW_TouchGFX_WiFi
 
-Example use of TouchGFX and WiFi module on the STM32H7B3I-DK.
+Example template project, showing use of TouchGFX and WiFi module on the STM32H7B3I-DK.
+
+Wifi module is initialised, then a scan is performed with access points stored in a a structure.
 
 NOTE.
 
